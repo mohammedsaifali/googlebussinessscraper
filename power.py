@@ -1,19 +1,20 @@
 import streamlit as st
+import os, sys
 import pandas as pd
-import json
-import base64
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, WebDriverException
 import time
-from fake_useragent import UserAgent
-from selenium.webdriver.chrome.options import Options
+import json
 
-ua = UserAgent()
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument(f'user-agent={ua.random}')
 
+@st.cache_resource
+def installff():
+  os.system('sbase install geckodriver')
+  os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
+
+_ = installff()
+from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
+opts = FirefoxOptions()
+opts.add_argument("--headless")
 def load_country_data():
     df = pd.read_csv('data.csv')
     return df
@@ -91,8 +92,7 @@ def main():
         keywords = generate_keywords(product_names, city_country_pairs)
 
         if st.button("Start Scraping"):
-            # Initialize Selenium WebDriver and scraping logic here
-            driver = webdriver.Chrome()
+            webdriver.Firefox(options=opts)
             all_data = []
             for keyword in keywords:
                 scrape_data(keyword, driver, all_data)
