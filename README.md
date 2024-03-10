@@ -1,4 +1,4 @@
-# Web Scraping Project
+# Google Bussiness Pages Scraper
 
 ## Description
 This project is a web scraping application developed in Python using Selenium and Streamlit. It scrapes business information based on product names and city-country pairs from Google search results and presents the data in a user-friendly web application.
